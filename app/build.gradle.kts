@@ -1,8 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
 }
-
 android {
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     namespace = "com.example.mobile_project"
     compileSdk {
         version = release(36) {
@@ -36,6 +40,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
