@@ -1,7 +1,7 @@
 package com.example.mobile_project.model
 
 data class TravelRecord(
-    val id:Int = 0,
+    var id:Int = 0,
     var place:String,
     var date:String,
     var memo:String,

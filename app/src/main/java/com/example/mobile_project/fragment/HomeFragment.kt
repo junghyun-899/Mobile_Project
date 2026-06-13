@@ -24,39 +24,23 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding =
-            FragmentHomeBinding.inflate(
-                inflater,
-                container,
-                false
-            )
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
     }
+    private fun loadData() {
+        val db = DBHelper(requireContext())
+        val list = db.getAll()
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = TravelAdapter(list, { record -> val intent = Intent(requireContext(), AddEditActivity::class.java)
+            intent.putExtra("recordId", record.id)
+            startActivity(intent) }, { record ->db.delete(record.id)
+            loadData() })
+    }
 
     override fun onResume() {
-
         super.onResume()
-
-        val db = DBHelper(requireContext())
-
-        val list = db.getAll()
-
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
-
-        binding.recyclerView.adapter =
-            TravelAdapter(list) { record ->
-
-                db.delete(record.id)
-
-                val newList = db.getAll()
-
-                binding.recyclerView.adapter =
-                    TravelAdapter(newList) { }
-            }
-
+        loadData()
         binding.fabAdd.setOnClickListener {
 
             startActivity(

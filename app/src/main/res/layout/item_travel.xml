@@ -30,13 +30,23 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnDelete"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="삭제"/>
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수정"/>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="삭제"/>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -57,41 +57,51 @@ class DBHelper(context: Context)
     }
 
     fun getAll(): ArrayList<TravelRecord> {
-
         val list = ArrayList<TravelRecord>()
-
-        val cursor =
-            readableDatabase.rawQuery(
-                "SELECT * FROM travel ORDER BY id DESC",
-                null
-            )
-
+        val cursor = readableDatabase.rawQuery("SELECT * FROM travel ORDER BY id DESC", null)
         while (cursor.moveToNext()) {
-
-            list.add(
-                TravelRecord(
+            list.add(TravelRecord(
                     cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
                     cursor.getString(4),
                     cursor.getDouble(5),
-                    cursor.getDouble(6)
-                )
+                    cursor.getDouble(6))
             )
         }
-
         cursor.close()
-
         return list
     }
-
     fun delete(id: Int) {
-
         writableDatabase.delete(
             "travel",
             "id=?",
             arrayOf(id.toString())
         )
+    }
+    fun getById(id:Int): TravelRecord? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM travel WHERE id=?", arrayOf(id.toString()))
+        var record: TravelRecord? = null
+        if(cursor.moveToFirst()){
+            record = TravelRecord(id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    place = cursor.getString(cursor.getColumnIndexOrThrow("place")),
+                    date = cursor.getString(cursor.getColumnIndexOrThrow("date")),
+                    memo = cursor.getString(cursor.getColumnIndexOrThrow("memo")),
+                    imagePath = cursor.getString(cursor.getColumnIndexOrThrow("imagePath"))
+            )
+        }
+        cursor.close()
+        return record
+    }
+    fun update(record: TravelRecord) {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put("place", record.place)
+        values.put("date", record.date)
+        values.put("memo", record.memo)
+        values.put("imagePath", record.imagePath)
+        db.update("travel", values, "id=?", arrayOf(record.id.toString()))
     }
 }
