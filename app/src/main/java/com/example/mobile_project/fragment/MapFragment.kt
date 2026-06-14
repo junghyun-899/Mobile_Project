@@ -43,21 +43,14 @@ class MapFragment :
     override fun onMapReady(googleMap: GoogleMap)
     {
         val list = DBHelper(requireContext()).getAll()
+        var lat = 37.5665
+        var lng = 126.9780
         for(record in list)
         {
-            if(record.latitude != 0.0 && record.longitude != 0.0)
-            {
-                val location = LatLng(record.latitude, record.longitude)
-                googleMap.addMarker(MarkerOptions().position(location).title(record.place))
-            }
+            googleMap.addMarker(MarkerOptions().position(LatLng(lat, lng)).title(record.place))
+            lat += 0.02
+            lng += 0.02
         }
-        if(list.isNotEmpty())
-        {
-            val first = list[0]
-            if(first.latitude != 0.0 && first.longitude != 0.0)
-            {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(first.latitude, first.longitude), 12f))
-            }
-        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(37.5665, 126.9780), 10f))
     }
 }
