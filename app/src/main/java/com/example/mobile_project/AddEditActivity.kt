@@ -1,5 +1,5 @@
 package com.example.mobile_project
-
+import androidx.exifinterface.media.ExifInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobile_project.databinding.ActivityAddEditBinding
@@ -10,9 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import android.app.DatePickerDialog
 import java.util.Calendar
 import android.content.Intent
+import android.widget.Toast
 
 class AddEditActivity : AppCompatActivity() {
     private var editId = -1
+    private var latitude = 0.0
+    private var longitude = 0.0
     private lateinit var binding: ActivityAddEditBinding
     private var selectedImageUri: Uri? = null
     private val imagePicker = registerForActivityResult(ActivityResultContracts.OpenDocument())
@@ -23,6 +26,19 @@ class AddEditActivity : AppCompatActivity() {
             contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             selectedImageUri = uri
             binding.imgPreview.setImageURI(uri)
+            try {
+                val inputStream = contentResolver.openInputStream(uri)
+                val exif = ExifInterface(inputStream!!)
+                val latLong = FloatArray(2)
+                if(exif.getLatLong(latLong))
+                {
+                    latitude = latLong[0].toDouble()
+                    longitude = latLong[1].toDouble()
+                }
+            } catch(e: Exception)
+            {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -38,11 +54,18 @@ class AddEditActivity : AppCompatActivity() {
             imagePicker.launch(arrayOf("image/*"))
         }
         binding.btnSave.setOnClickListener {
+            Toast.makeText(
+                this,
+                "위도 : $latitude\n경도 : $longitude",
+                Toast.LENGTH_LONG
+            ).show()
             val record = TravelRecord(
                 place = binding.etPlace.text.toString(),
                 date = binding.etDate.text.toString(),
                 memo = binding.etMemo.text.toString(),
                 imagePath = selectedImageUri?.toString() ?: "",
+                latitude = latitude,
+                longitude = longitude,
                 rating = binding.ratingBar.rating
             )
             val db = DBHelper(this)

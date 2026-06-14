@@ -23,11 +23,15 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId)
             {
                 R.id.menu_home -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, HomeFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, HomeFragment())
+                        .commit()
                     true
                 }
                 R.id.menu_map -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, MapFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, MapFragment())
+                        .commit()
                     true
                 }
                 else -> false

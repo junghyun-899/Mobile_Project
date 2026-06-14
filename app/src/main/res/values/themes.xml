@@ -1,9 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Mobile_Project" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.MobileProject"
+        parent="Theme.Material3.DayNight">
     </style>
 
-    <style name="Theme.Mobile_Project" parent="Base.Theme.Mobile_Project" />
+    <style name="Theme.Mobile_Project" parent="Base.Theme.MobileProject" />
 </resources>
