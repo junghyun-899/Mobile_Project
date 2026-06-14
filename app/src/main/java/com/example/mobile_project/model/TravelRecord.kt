@@ -7,5 +7,6 @@ data class TravelRecord(
     var memo:String,
     var imagePath:String,
     var latitude:Double = 0.0,
-    var longitude:Double = 0.0
+    var longitude:Double = 0.0,
+    var rating:Float = 0f
 )
